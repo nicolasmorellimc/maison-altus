@@ -430,9 +430,11 @@
             #about { grid-template-columns: 1fr; padding: 60px 6vw; }
             .about-images { order: -1; }
             .form-row { grid-template-columns: 1fr; }
-            .lightbox-nav { display: none; }
             #philosophie { padding: 100px 6vw; }
             .philo-stats { flex-wrap: wrap; gap: 32px; }
+            /* lightbox nav : zones de tap plein-hauteur sur mobile */
+            .lightbox-prev { left: 0; width: 20vw; height: 100%; border-radius: 0; background: transparent; border: none; justify-content: flex-start; padding-left: 16px; }
+            .lightbox-next { right: 0; width: 20vw; height: 100%; border-radius: 0; background: transparent; border: none; justify-content: flex-end; padding-right: 16px; }
         }
         @media (max-width: 640px) {
             .nav-links { display: none; }
@@ -926,6 +928,17 @@ function lightboxNav(dir) {
     renderLightbox();
 }
 document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+
+/* swipe dans la lightbox */
+(function() {
+    const lb = document.getElementById('lightbox');
+    let x0 = 0;
+    lb.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 50) dx < 0 ? lightboxNav(1) : lightboxNav(-1);
+    });
+})();
 
 /* ════════════════════════════════
    KEYBOARD
