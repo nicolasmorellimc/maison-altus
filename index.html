@@ -22,9 +22,54 @@
             --beige: #f5f1ed; --beige-mid: #f0ede8; --beige-dark: #e8dcc8;
             --vert: #6b8e6f; --vert-dark: #4a6b4e;
             --text: #2c2c2c; --text-light: #666; --white: #ffffff;
+            --dark: #1a1816;
         }
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background: var(--beige); color: var(--text); line-height: 1.6; }
+
+        /* ── CURSOR (desktop only) ── */
+        @media (hover: hover) and (pointer: fine) {
+            * { cursor: none !important; }
+        }
+        .cursor-dot {
+            display: none;
+            position: fixed; z-index: 9999;
+            width: 6px; height: 6px;
+            background: var(--vert);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
+            will-change: transform;
+        }
+        .cursor-ring {
+            display: none;
+            position: fixed; z-index: 9998;
+            width: 34px; height: 34px;
+            border: 1.5px solid rgba(107,142,111,0.55);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width 0.35s cubic-bezier(0.4,0,0.2,1),
+                        height 0.35s cubic-bezier(0.4,0,0.2,1),
+                        border-color 0.25s, opacity 0.25s;
+            will-change: transform;
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .cursor-dot, .cursor-ring { display: block; }
+        }
+        .cursor-ring.hover { width: 56px; height: 56px; border-color: rgba(107,142,111,0.8); }
+        .cursor-ring.click { width: 24px; height: 24px; }
+        .cursor-dot.click { width: 10px; height: 10px; }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.75s cubic-bezier(0.4,0,0.2,1),
+                        transform 0.75s cubic-bezier(0.4,0,0.2,1);
+        }
+        .reveal.visible { opacity: 1; transform: none; }
 
         /* ── NAV ── */
         nav {
@@ -46,7 +91,7 @@
         #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 64px; }
         .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 80px 5vw 80px 8vw; }
         .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--vert); margin-bottom: 24px; }
-        .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 72px); font-weight: 300; line-height: 1.1; margin-bottom: 24px; }
+        .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 5.5vw, 80px); font-weight: 300; line-height: 1.05; margin-bottom: 24px; }
         .hero-title .accent { color: var(--vert); font-style: italic; }
         .hero-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--text-light); border-left: 2px solid var(--vert); padding-left: 16px; margin-bottom: 24px; }
         .hero-desc { font-size: 14px; color: var(--text-light); max-width: 400px; margin-bottom: 40px; }
@@ -57,9 +102,9 @@
         .btn-outline:hover { background: var(--text); color: var(--white); }
         .hero-right { position: relative; overflow: hidden; }
         .hero-right img { width: 100%; height: 100%; object-fit: cover; }
-        .hero-badge { position: absolute; bottom: 40px; left: 40px; background: rgba(245,241,237,0.92); padding: 16px 20px; font-family: 'Cormorant Garamond', serif; }
-        .hero-badge .num { font-size: 32px; font-weight: 600; color: var(--vert); }
-        .hero-badge .label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-light); }
+        .hero-stats { display: flex; gap: 40px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--beige-dark); }
+        .hero-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--text); line-height: 1; }
+        .hero-stat-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-light); margin-top: 4px; }
 
         /* ── SECTIONS ── */
         section { padding: 100px 5vw; }
@@ -67,6 +112,65 @@
         .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 300; line-height: 1.15; margin-bottom: 16px; }
         .section-title .accent { color: var(--vert); font-style: italic; }
         .section-desc { font-size: 14px; color: var(--text-light); max-width: 520px; margin-bottom: 48px; }
+
+        /* ── PHILOSOPHIE ── */
+        #philosophie {
+            background: var(--dark);
+            padding: 160px 5vw;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #philosophie::before {
+            content: '';
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70vw; height: 70vw; max-width: 800px; max-height: 800px;
+            background: radial-gradient(circle, rgba(107,142,111,0.07) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .philo-tag {
+            font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+            color: rgba(107,142,111,0.6); margin-bottom: 48px;
+        }
+        .philo-line-top {
+            width: 1px; height: 60px;
+            background: linear-gradient(to bottom, transparent, rgba(107,142,111,0.4));
+            margin: 0 auto 40px;
+        }
+        .philo-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(26px, 3.5vw, 52px);
+            font-weight: 300; font-style: italic;
+            color: #f0ede8;
+            line-height: 1.35; max-width: 860px; margin: 0 auto 48px;
+            letter-spacing: 0.2px;
+        }
+        .philo-quote em { color: rgba(107,142,111,0.85); font-style: normal; }
+        .philo-sep {
+            width: 48px; height: 1px; background: rgba(107,142,111,0.5);
+            margin: 0 auto 32px;
+        }
+        .philo-author {
+            font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+            color: rgba(245,241,237,0.25);
+        }
+        .philo-stats {
+            display: flex; justify-content: center; gap: 64px;
+            margin-top: 80px; padding-top: 64px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .philo-stat { text-align: center; }
+        .philo-stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px; font-weight: 300; color: #f0ede8;
+            line-height: 1;
+        }
+        .philo-stat-suffix { color: var(--vert); }
+        .philo-stat-label {
+            font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(245,241,237,0.3); margin-top: 8px;
+        }
 
         /* ── TABS ── */
         #realisations { background: var(--white); }
@@ -83,132 +187,78 @@
 
         /* ── CARROUSEL ── */
         .carousel-container { position: relative; }
-
         .carousel-stage {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            overflow: hidden;
-            background: #1a1916;
-            border-radius: 2px;
-            cursor: zoom-in;
+            position: relative; width: 100%;
+            aspect-ratio: 16 / 9; overflow: hidden;
+            background: #1a1916; border-radius: 2px; cursor: zoom-in;
         }
-
         .carousel-slide {
             position: absolute; inset: 0;
-            opacity: 0;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0; transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: none;
         }
         .carousel-slide.active { opacity: 1; pointer-events: auto; }
-
-        .carousel-slide img {
-            width: 100%; height: 100%;
-            object-fit: cover; display: block;
-            user-select: none; -webkit-user-drag: none;
-        }
-
-        /* vignette & caption */
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; -webkit-user-drag: none; }
         .carousel-vignette {
             position: absolute; inset: 0; pointer-events: none;
-            background: linear-gradient(
-                to top,
-                rgba(15,12,10,0.6) 0%,
-                rgba(15,12,10,0.15) 35%,
-                transparent 60%
-            );
+            background: linear-gradient(to top, rgba(15,12,10,0.6) 0%, rgba(15,12,10,0.15) 35%, transparent 60%);
         }
-
-        .carousel-caption {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 32px 44px 36px;
-            pointer-events: none;
-        }
+        .carousel-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 32px 44px 36px; pointer-events: none; }
         .carousel-caption h3 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 26px; font-weight: 400;
-            color: var(--white); letter-spacing: 0.3px;
+            font-size: 26px; font-weight: 400; color: var(--white); letter-spacing: 0.3px;
             transform: translateY(8px); opacity: 0;
             transition: all 0.4s cubic-bezier(0.4,0,0.2,1) 0.05s;
         }
         .carousel-caption p {
             font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-            color: rgba(255,255,255,0.6);
-            margin-top: 5px;
+            color: rgba(255,255,255,0.6); margin-top: 5px;
             transform: translateY(8px); opacity: 0;
             transition: all 0.4s cubic-bezier(0.4,0,0.2,1) 0.12s;
         }
         .carousel-stage:hover .carousel-caption h3,
         .carousel-stage:hover .carousel-caption p { opacity: 1; transform: none; }
-
-        /* counter */
         .carousel-counter {
             position: absolute; top: 24px; right: 28px;
-            color: rgba(255,255,255,0.55);
-            font-size: 11px; letter-spacing: 3px;
+            color: rgba(255,255,255,0.55); font-size: 11px; letter-spacing: 3px;
             font-family: 'Inter', sans-serif; pointer-events: none;
         }
         .carousel-counter em { color: rgba(255,255,255,0.9); font-style: normal; }
-
-        /* nav arrows */
         .carousel-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             width: 50px; height: 50px;
-            background: rgba(245,241,237,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(245,241,237,0.1); border: 1px solid rgba(255,255,255,0.2);
             color: var(--white); cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            border-radius: 50%;
-            backdrop-filter: blur(8px);
-            font-size: 17px; z-index: 10;
+            border-radius: 50%; backdrop-filter: blur(8px); font-size: 17px; z-index: 10;
             opacity: 0; transition: opacity 0.25s, background 0.2s, border-color 0.2s;
         }
         .carousel-stage:hover .carousel-btn { opacity: 1; }
         .carousel-btn:hover { background: rgba(107,142,111,0.55); border-color: var(--vert); }
         .carousel-btn-prev { left: 20px; }
         .carousel-btn-next { right: 20px; }
-
-        /* expand icon */
         .carousel-expand {
             position: absolute; bottom: 32px; right: 36px;
             width: 34px; height: 34px;
-            background: rgba(245,241,237,0.12);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(245,241,237,0.12); border: 1px solid rgba(255,255,255,0.2);
             color: white; cursor: zoom-in;
             display: flex; align-items: center; justify-content: center;
             border-radius: 2px; backdrop-filter: blur(6px);
-            opacity: 0; transition: opacity 0.25s;
-            font-size: 14px;
+            opacity: 0; transition: opacity 0.25s; font-size: 14px;
         }
         .carousel-stage:hover .carousel-expand { opacity: 1; }
-
-        /* thumbnails strip */
         .carousel-thumbs-wrap { margin-top: 12px; }
-        .carousel-thumbs {
-            display: flex; gap: 8px;
-            overflow-x: auto; scroll-behavior: smooth;
-            scrollbar-width: none; padding: 3px 1px;
-        }
+        .carousel-thumbs { display: flex; gap: 8px; overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none; padding: 3px 1px; }
         .carousel-thumbs::-webkit-scrollbar { display: none; }
         .carousel-thumb {
-            flex-shrink: 0; width: 90px; height: 62px;
-            object-fit: cover; cursor: pointer; border-radius: 1px;
-            opacity: 0.38; transition: opacity 0.2s, border-color 0.2s;
-            border: 2px solid transparent;
+            flex-shrink: 0; width: 90px; height: 62px; object-fit: cover;
+            cursor: pointer; border-radius: 1px; opacity: 0.38;
+            transition: opacity 0.2s, border-color 0.2s; border: 2px solid transparent;
         }
         .carousel-thumb.active { opacity: 1; border-color: var(--vert); }
         .carousel-thumb:hover { opacity: 0.7; }
-
-        /* progress line */
-        .carousel-progress {
-            height: 1px; background: var(--beige-dark); margin-top: 16px;
-            position: relative; overflow: hidden;
-        }
-        .carousel-progress-bar {
-            position: absolute; top: 0; left: 0; height: 100%;
-            background: var(--vert);
-            transition: width 0.4s ease;
-        }
+        .carousel-progress { height: 1px; background: var(--beige-dark); margin-top: 16px; position: relative; overflow: hidden; }
+        .carousel-progress-bar { position: absolute; top: 0; left: 0; height: 100%; background: var(--vert); transition: width 0.4s ease; }
 
         /* ── SERVICES ── */
         #services { background: var(--beige); }
@@ -221,8 +271,28 @@
         .service-detail { font-size: 12px; color: var(--text-light); }
         .service-detail span { color: var(--vert); }
 
+        /* ── TÉMOIGNAGES ── */
+        #temoignages { background: var(--white); }
+        .temoignages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .temoignage {
+            padding: 40px 32px 36px; background: var(--beige-mid);
+            border-radius: 2px; position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .temoignage:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
+        .temoignage-stars { display: flex; gap: 3px; margin-bottom: 20px; }
+        .temoignage-star { color: var(--vert); font-size: 13px; }
+        .temoignage-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px; font-style: italic; font-weight: 300;
+            line-height: 1.7; color: var(--text); margin-bottom: 28px;
+        }
+        .temoignage-sep { width: 32px; height: 1px; background: var(--vert); margin-bottom: 20px; }
+        .temoignage-author { font-size: 13px; font-weight: 400; color: var(--text); }
+        .temoignage-project { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--vert); margin-top: 4px; }
+
         /* ── ABOUT ── */
-        #about { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        #about { background: var(--beige); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
         .about-images { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .about-images img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 2px; }
         .about-images img:first-child { margin-top: 40px; }
@@ -255,54 +325,38 @@
         footer p { font-size: 12px; }
 
         /* ── LIGHTBOX ── */
-        .lightbox {
-            display: none; position: fixed; inset: 0; z-index: 999;
-            background: rgba(10,8,7,0.95); justify-content: center; align-items: center;
-        }
+        .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(10,8,7,0.95); justify-content: center; align-items: center; }
         .lightbox.open { display: flex; }
         .lightbox-inner { position: relative; max-width: 92vw; max-height: 90vh; display: flex; align-items: center; justify-content: center; }
         .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; display: block; }
-        .lightbox-close {
-            position: fixed; top: 24px; right: 32px;
-            color: rgba(255,255,255,0.6); font-size: 30px; cursor: pointer;
-            background: none; border: none; line-height: 1;
-            transition: color 0.2s;
-        }
+        .lightbox-close { position: fixed; top: 24px; right: 32px; color: rgba(255,255,255,0.6); font-size: 30px; cursor: pointer; background: none; border: none; line-height: 1; transition: color 0.2s; }
         .lightbox-close:hover { color: white; }
-        .lightbox-nav {
-            position: fixed; top: 50%; transform: translateY(-50%);
-            width: 52px; height: 52px;
-            background: rgba(245,241,237,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.7); cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; font-size: 17px;
-            transition: all 0.2s;
-        }
+        .lightbox-nav { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; background: rgba(245,241,237,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 17px; transition: all 0.2s; }
         .lightbox-nav:hover { background: rgba(107,142,111,0.4); color: white; border-color: var(--vert); }
         .lightbox-prev { left: 24px; }
         .lightbox-next { right: 24px; }
-        .lightbox-counter {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            color: rgba(255,255,255,0.45); font-size: 11px; letter-spacing: 3px;
-        }
-        .lightbox-info {
-            position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%);
-            text-align: center; color: var(--white);
-        }
+        .lightbox-counter { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.45); font-size: 11px; letter-spacing: 3px; }
+        .lightbox-info { position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%); text-align: center; color: var(--white); }
         .lightbox-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; }
         .lightbox-info p { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 3px; }
 
         /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .temoignages-grid { grid-template-columns: 1fr; gap: 20px; }
+            .philo-stats { gap: 40px; }
+        }
         @media (max-width: 900px) {
             #hero { grid-template-columns: 1fr; }
             .hero-right { height: 55vw; }
             .hero-left { padding: 60px 6vw; }
+            .hero-stats { gap: 28px; }
             .carousel-stage { aspect-ratio: 4 / 3; }
             #about { grid-template-columns: 1fr; padding: 60px 6vw; }
             .about-images { order: -1; }
             .form-row { grid-template-columns: 1fr; }
             .lightbox-nav { display: none; }
+            #philosophie { padding: 100px 6vw; }
+            .philo-stats { flex-wrap: wrap; gap: 32px; }
         }
         @media (max-width: 640px) {
             .nav-links { display: none; }
@@ -315,10 +369,16 @@
             .carousel-btn-next { right: 12px; }
             .carousel-thumb { width: 68px; height: 48px; }
             section { padding: 64px 6vw; }
+            .philo-quote { font-size: clamp(22px, 6vw, 36px); }
+            .philo-stats { display: none; }
         }
     </style>
 </head>
 <body>
+
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
     <a href="#hero" class="nav-logo">Maison Altus</a>
@@ -333,6 +393,7 @@
     </button>
 </nav>
 
+<!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
     <div class="hero-left">
         <p class="hero-eyebrow">Design d'intérieur · Japandi · Wabi-sabi</p>
@@ -343,31 +404,72 @@
             <a href="#contact" class="btn btn-dark">Discuter de votre projet</a>
             <a href="#realisations" class="btn btn-outline">Voir les réalisations</a>
         </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-num" data-count="20" data-suffix="+">0</div>
+                <div class="hero-stat-label">Projets réalisés</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num" data-count="5" data-suffix=" ans">0</div>
+                <div class="hero-stat-label">D'expérience</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num" data-count="100" data-suffix="%">0</div>
+                <div class="hero-stat-label">Sur mesure</div>
+            </div>
+        </div>
     </div>
     <div class="hero-right">
         <img src="assets/images/1000089156.jpg" alt="Réalisation Maison Altus"
              onerror="this.style.background='linear-gradient(135deg,#f5f1ed,#e8dcc8)';this.removeAttribute('src')">
-        <div class="hero-badge">
-            <div class="num">20+</div>
-            <div class="label">Projets réalisés</div>
+    </div>
+</section>
+
+<!-- ═══════════ PHILOSOPHIE ═══════════ -->
+<section id="philosophie">
+    <p class="philo-tag reveal">Philosophie</p>
+    <div class="philo-line-top reveal"></div>
+    <blockquote class="philo-quote reveal">
+        « La sobriété n'est pas un manque —<br>
+        c'est la forme la plus haute du <em>raffinement</em>. »
+    </blockquote>
+    <div class="philo-sep reveal"></div>
+    <p class="philo-author reveal">Maison Altus · Nice & Monaco</p>
+    <div class="philo-stats">
+        <div class="philo-stat reveal">
+            <div class="philo-stat-num">
+                <span class="counter" data-count="20" data-suffix="+">20+</span>
+            </div>
+            <div class="philo-stat-label">Projets réalisés</div>
+        </div>
+        <div class="philo-stat reveal" style="transition-delay:0.1s">
+            <div class="philo-stat-num">
+                <span class="counter" data-count="5" data-suffix=" ans">5 ans</span>
+            </div>
+            <div class="philo-stat-label">D'expérience</div>
+        </div>
+        <div class="philo-stat reveal" style="transition-delay:0.2s">
+            <div class="philo-stat-num">
+                <span class="counter" data-count="2" data-suffix=" villes">2 villes</span>
+            </div>
+            <div class="philo-stat-label">Nice · Monaco</div>
         </div>
     </div>
 </section>
 
 <!-- ═══════════ RÉALISATIONS ═══════════ -->
 <section id="realisations">
-    <p class="section-tag">Portfolio</p>
-    <h2 class="section-title">Mes <span class="accent">réalisations</span></h2>
-    <p class="section-desc">Chaque projet est une conversation entre l'espace, la lumière et l'humain qui l'habite.</p>
+    <p class="section-tag reveal">Portfolio</p>
+    <h2 class="section-title reveal">Mes <span class="accent">réalisations</span></h2>
+    <p class="section-desc reveal">Chaque projet est une conversation entre l'espace, la lumière et l'humain qui l'habite.</p>
 
-    <div class="filter-tabs">
+    <div class="filter-tabs reveal">
         <button class="tab-btn active" onclick="switchCategory('projets', this)">Projets réalisés</button>
         <button class="tab-btn" onclick="switchCategory('3d', this)">Visualisations 3D</button>
         <button class="tab-btn" onclick="switchCategory('moodboard', this)">Moodboards</button>
     </div>
 
-    <div class="carousel-container">
-        <!-- main stage -->
+    <div class="carousel-container reveal">
         <div class="carousel-stage" id="carouselStage">
             <div class="carousel-vignette"></div>
             <div class="carousel-caption">
@@ -383,13 +485,9 @@
                 </svg>
             </button>
         </div>
-
-        <!-- thumbnails -->
         <div class="carousel-thumbs-wrap">
             <div class="carousel-thumbs" id="carouselThumbs"></div>
         </div>
-
-        <!-- progress -->
         <div class="carousel-progress">
             <div class="carousel-progress-bar" id="carouselProgress"></div>
         </div>
@@ -398,29 +496,29 @@
 
 <!-- ═══════════ SERVICES ═══════════ -->
 <section id="services">
-    <p class="section-tag">Prestations</p>
-    <h2 class="section-title">Services & <span class="accent">honoraires</span></h2>
-    <p class="section-desc">Des accompagnements sur mesure pour chaque étape de votre projet d'intérieur.</p>
+    <p class="section-tag reveal">Prestations</p>
+    <h2 class="section-title reveal">Services & <span class="accent">honoraires</span></h2>
+    <p class="section-desc reveal">Des accompagnements sur mesure pour chaque étape de votre projet d'intérieur.</p>
     <div class="services-grid">
-        <div class="service-card">
+        <div class="service-card reveal" style="transition-delay:0s">
             <div class="service-num">01</div>
             <h3 class="service-name">Visite Conseil</h3>
             <p class="service-desc">Consultation personnalisée pour explorer votre vision, analyser votre espace et proposer des orientations de design adaptées à vos envies et votre budget.</p>
             <p class="service-detail"><span>Durée :</span> 1h30 · À domicile ou en ligne</p>
         </div>
-        <div class="service-card">
+        <div class="service-card reveal" style="transition-delay:0.1s">
             <div class="service-num">02</div>
             <h3 class="service-name">Plans 2D / 3D</h3>
             <p class="service-desc">Conception de plans d'aménagement et visualisations 3D pour projeter votre intérieur avant la réalisation. Chaque espace pensé dans ses moindres détails.</p>
             <p class="service-detail"><span>Livrable :</span> Plans techniques + rendu 3D</p>
         </div>
-        <div class="service-card">
+        <div class="service-card reveal" style="transition-delay:0.2s">
             <div class="service-num">03</div>
             <h3 class="service-name">Shopping List</h3>
             <p class="service-desc">Sélection de mobilier, matériaux et accessoires adaptés à votre style et votre budget. Une liste d'achats cohérente, prête à l'emploi.</p>
             <p class="service-detail"><span>Livrable :</span> Sélection produits + liens d'achat</p>
         </div>
-        <div class="service-card">
+        <div class="service-card reveal" style="transition-delay:0.3s">
             <div class="service-num">04</div>
             <h3 class="service-name">Projet Complet</h3>
             <p class="service-desc">Accompagnement de A à Z — de la conception à la réalisation. Plans, visualisations, shopping list, suivi de chantier et mise en scène finale.</p>
@@ -429,42 +527,84 @@
     </div>
 </section>
 
+<!-- ═══════════ TÉMOIGNAGES ═══════════ -->
+<section id="temoignages">
+    <p class="section-tag reveal">Témoignages</p>
+    <h2 class="section-title reveal">Ce qu'ils <span class="accent">disent</span></h2>
+    <p class="section-desc reveal">Des projets réels, des clients satisfaits — et des espaces qui leur ressemblent.</p>
+    <div class="temoignages-grid">
+        <div class="temoignage reveal" style="transition-delay:0s">
+            <div class="temoignage-stars">
+                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
+                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
+                <span class="temoignage-star">★</span>
+            </div>
+            <p class="temoignage-text">« Audrey a su créer exactement l'atmosphère que j'imaginais sans pouvoir l'exprimer. Notre salon est devenu notre endroit préféré. Un résultat au-delà de nos espérances. »</p>
+            <div class="temoignage-sep"></div>
+            <p class="temoignage-author">Marie & Nicolas L.</p>
+            <p class="temoignage-project">Projet complet · Appartement 85 m²</p>
+        </div>
+        <div class="temoignage reveal" style="transition-delay:0.12s">
+            <div class="temoignage-stars">
+                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
+                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
+                <span class="temoignage-star">★</span>
+            </div>
+            <p class="temoignage-text">« Les visualisations 3D nous ont permis de nous projeter parfaitement avant les travaux. Chaque choix était justifié, rien n'a été laissé au hasard. Résultat fidèle à 100%. »</p>
+            <div class="temoignage-sep"></div>
+            <p class="temoignage-author">Thomas R.</p>
+            <p class="temoignage-project">Plans 2D / 3D · Rénovation salon & cuisine</p>
+        </div>
+        <div class="temoignage reveal" style="transition-delay:0.24s">
+            <div class="temoignage-stars">
+                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
+                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
+                <span class="temoignage-star">★</span>
+            </div>
+            <p class="temoignage-text">« En une heure de visite conseil, Audrey a identifié tous les points faibles de notre intérieur et proposé des solutions simples mais percutantes. Inestimable. »</p>
+            <div class="temoignage-sep"></div>
+            <p class="temoignage-author">Céline M.</p>
+            <p class="temoignage-project">Visite Conseil · Monaco</p>
+        </div>
+    </div>
+</section>
+
 <!-- ═══════════ À PROPOS ═══════════ -->
 <section id="about">
-    <div class="about-images">
+    <div class="about-images reveal">
         <img src="assets/images/1000089211.jpg" alt="Réalisation Maison Altus"
              onerror="this.style.background='#f0ede8';this.removeAttribute('src')">
         <img src="assets/images/1000089230.jpg" alt="Chambre Maison Altus"
              onerror="this.style.background='#e8dcc8';this.removeAttribute('src')">
     </div>
     <div class="about-content">
-        <p class="section-tag">À propos</p>
-        <h2 class="section-title">Une approche<br><span class="accent">minimaliste</span></h2>
-        <p class="section-desc">Designer d'intérieur passionnée par les espaces épurés, je crée des intérieurs où chaque élément a une raison d'être. Inspirée par la philosophie japandi et le wabi-sabi, j'aide mes clients à trouver la beauté dans la simplicité.</p>
+        <p class="section-tag reveal">À propos</p>
+        <h2 class="section-title reveal">Une approche<br><span class="accent">minimaliste</span></h2>
+        <p class="section-desc reveal">Designer d'intérieur passionnée par les espaces épurés, je crée des intérieurs où chaque élément a une raison d'être. Inspirée par la philosophie japandi et le wabi-sabi, j'aide mes clients à trouver la beauté dans la simplicité.</p>
         <div class="about-values">
-            <div class="about-value">
+            <div class="about-value reveal" style="transition-delay:0s">
                 <div class="about-value-dot"></div>
                 <p><strong>Japandi & Wabi-sabi</strong> — L'harmonie entre design scandinave et esthétique japonaise, célébrant l'imperfection et l'authenticité.</p>
             </div>
-            <div class="about-value">
+            <div class="about-value reveal" style="transition-delay:0.1s">
                 <div class="about-value-dot"></div>
                 <p><strong>Matériaux naturels</strong> — Bois, lin, céramique. Des matières qui vieillissent bien et créent une atmosphère apaisante.</p>
             </div>
-            <div class="about-value">
+            <div class="about-value reveal" style="transition-delay:0.2s">
                 <div class="about-value-dot"></div>
                 <p><strong>Éclairage pensé</strong> — La lumière comme élément de décoration à part entière, pour des ambiances chaleureuses et vivantes.</p>
             </div>
         </div>
-        <a href="assets/docs/PRESTATIONS-MAISONALTUS.pdf" class="btn btn-dark" target="_blank">Télécharger les prestations</a>
+        <a href="assets/docs/PRESTATIONS-MAISONALTUS.pdf" class="btn btn-dark reveal" target="_blank">Télécharger les prestations</a>
     </div>
 </section>
 
 <!-- ═══════════ CONTACT ═══════════ -->
 <section id="contact">
-    <p class="section-tag">Contact</p>
-    <h2 class="section-title">Commençons votre <span class="accent">projet</span></h2>
-    <p class="section-desc">Parlez-moi de votre espace et de vos envies. Je vous répondrai sous 48h.</p>
-    <form class="contact-form" onsubmit="handleSubmit(event)">
+    <p class="section-tag reveal">Contact</p>
+    <h2 class="section-title reveal">Commençons votre <span class="accent">projet</span></h2>
+    <p class="section-desc reveal">Parlez-moi de votre espace et de vos envies. Je vous répondrai sous 48h.</p>
+    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
         <div class="form-row">
             <input type="text" name="prenom" placeholder="Votre prénom" required>
             <input type="text" name="nom" placeholder="Votre nom" required>
@@ -494,9 +634,7 @@
     <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fermer">×</button>
     <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)" aria-label="Précédent">&#8592;</button>
     <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)" aria-label="Suivant">&#8594;</button>
-    <div class="lightbox-inner">
-        <img id="lightbox-img" src="" alt="">
-    </div>
+    <div class="lightbox-inner"><img id="lightbox-img" src="" alt=""></div>
     <div class="lightbox-info">
         <h3 id="lightboxTitle"></h3>
         <p id="lightboxDesc"></p>
@@ -505,7 +643,9 @@
 </div>
 
 <script>
-/* ── GALLERY DATA ── */
+/* ════════════════════════════════
+   GALLERY DATA
+════════════════════════════════ */
 const gallery = {
     projets: [
         { src: 'assets/images/1000089156.jpg',  title: 'Salon Vertigo',      desc: 'Canapés camel & parquet chevron' },
@@ -523,9 +663,9 @@ const gallery = {
         { src: 'assets/images/1000089222.jpg',  title: 'Chambre douce',      desc: 'Papier peint cactus & accès balcon' },
         { src: 'assets/images/1000091788.jpg',  title: 'Plan 2D coté',       desc: 'Grand appartement avec terrasse' },
         { src: 'assets/images/3000-io040lmwuimt5sr_2026-05-03_10-19-32_5386.webp', title: 'Open space lumineux', desc: 'Salon & salle à manger' },
-        { src: 'assets/images/3000-io040lmwuimt5sr_2026-05-03_17-41-02_6188.webp', title: 'Salon blanc',        desc: 'Canapé tufté & table en marbre' },
-        { src: 'assets/images/IMG-20260119-WA0004.jpg',   title: 'Plan 2D',           desc: 'Appartement terrasse 30 m²' },
-        { src: 'assets/images/IMG-20260119-WA0005(2).jpg', title: 'Salon épuré',      desc: 'Rendu réaliste & lumière naturelle' },
+        { src: 'assets/images/3000-io040lmwuimt5sr_2026-05-03_17-41-02_6188.webp', title: 'Salon blanc', desc: 'Canapé tufté & table en marbre' },
+        { src: 'assets/images/IMG-20260119-WA0004.jpg',    title: 'Plan 2D', desc: 'Appartement terrasse 30 m²' },
+        { src: 'assets/images/IMG-20260119-WA0005(2).jpg', title: 'Salon épuré', desc: 'Rendu réaliste & lumière naturelle' },
         { src: 'assets/images/IMG-20260119-WA0006(1).jpg', title: 'Chambre Art Déco', desc: 'Papier peint éventails & or' },
     ],
     moodboard: [
@@ -536,78 +676,58 @@ const gallery = {
         { src: 'assets/images/1000089231.jpg',  title: 'Japandi',             desc: 'Tons naturels & matières brutes' },
         { src: 'assets/images/1000089233.jpg',  title: 'Épuré & Moderne',     desc: 'Modernité, beauté & matériaux bruts' },
         { src: 'assets/images/1000089234.jpg',  title: 'Wabi-Sabi',           desc: 'Inspirations japandi naturelles' },
-        { src: 'assets/images/7fc15370-51b6-11f1-abd8-29b96cad5d2c.jpg',                   title: "Chambre d'amis",   desc: 'Moodboard style Japandi' },
+        { src: 'assets/images/7fc15370-51b6-11f1-abd8-29b96cad5d2c.jpg',                   title: "Chambre d'amis", desc: 'Moodboard style Japandi' },
         { src: 'assets/images/BeigeMinimalisteMoodboardInstagramStory_250202_232133_2.jpg', title: 'Beige Minimaliste', desc: 'Palette douce & naturelle' },
     ]
 };
 
-/* ── CAROUSEL STATE ── */
-let currentCat = 'projets';
-let currentIdx  = 0;
-let slides      = [];
+/* ════════════════════════════════
+   CAROUSEL
+════════════════════════════════ */
+let currentCat = 'projets', currentIdx = 0, slides = [];
 
-/* ── BUILD / SWITCH ── */
 function switchCategory(cat, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    currentCat = cat;
-    currentIdx = 0;
+    currentCat = cat; currentIdx = 0;
     buildCarousel();
 }
 
 function buildCarousel() {
-    const items  = gallery[currentCat];
-    const stage  = document.getElementById('carouselStage');
+    const items = gallery[currentCat];
+    const stage = document.getElementById('carouselStage');
     const thumbs = document.getElementById('carouselThumbs');
-
     stage.querySelectorAll('.carousel-slide').forEach(s => s.remove());
-    thumbs.innerHTML = '';
-    slides = [];
-
+    thumbs.innerHTML = ''; slides = [];
     items.forEach((item, i) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide' + (i === 0 ? ' active' : '');
-
         const img = document.createElement('img');
-        img.src     = item.src;
-        img.alt     = item.title;
+        img.src = item.src; img.alt = item.title;
         img.loading = i === 0 ? 'eager' : 'lazy';
-        img.onerror = function() {
-            this.parentElement.style.background = 'linear-gradient(135deg,#f5f1ed,#e8dcc8)';
-            this.remove();
-        };
+        img.onerror = function() { this.parentElement.style.background='linear-gradient(135deg,#f5f1ed,#e8dcc8)'; this.remove(); };
         slide.appendChild(img);
-
-        /* insert before the vignette layer so overlays stay on top */
         stage.insertBefore(slide, stage.querySelector('.carousel-vignette'));
         slides.push(slide);
-
-        /* thumbnail */
         const thumb = document.createElement('img');
-        thumb.src       = item.src;
-        thumb.alt       = item.title;
+        thumb.src = item.src; thumb.alt = item.title;
         thumb.className = 'carousel-thumb' + (i === 0 ? ' active' : '');
-        thumb.loading   = 'lazy';
-        thumb.onclick   = () => goToSlide(i);
+        thumb.loading = 'lazy';
+        thumb.onclick = () => goToSlide(i);
         thumbs.appendChild(thumb);
     });
-
     updateUI();
 }
 
-/* ── NAVIGATION ── */
 function goToSlide(idx) {
     const items = gallery[currentCat];
     slides[currentIdx].classList.remove('active');
     document.querySelectorAll('.carousel-thumb')[currentIdx].classList.remove('active');
-
     currentIdx = ((idx % items.length) + items.length) % items.length;
-
     slides[currentIdx].classList.add('active');
     const thumbEls = document.querySelectorAll('.carousel-thumb');
     thumbEls[currentIdx].classList.add('active');
     thumbEls[currentIdx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-
     updateUI();
 }
 
@@ -615,84 +735,190 @@ function carouselPrev(e) { e && e.stopPropagation(); goToSlide(currentIdx - 1); 
 function carouselNext(e) { e && e.stopPropagation(); goToSlide(currentIdx + 1); }
 
 function updateUI() {
-    const items = gallery[currentCat];
-    const item  = items[currentIdx];
-    document.getElementById('carouselTitle').textContent   = item.title;
-    document.getElementById('carouselDesc').textContent    = item.desc;
-    document.getElementById('carouselCounter').innerHTML   =
-        '<em>' + String(currentIdx + 1).padStart(2, '0') + '</em> / ' + String(items.length).padStart(2, '0');
-    document.getElementById('carouselProgress').style.width =
-        ((currentIdx + 1) / items.length * 100) + '%';
+    const items = gallery[currentCat], item = items[currentIdx];
+    document.getElementById('carouselTitle').textContent = item.title;
+    document.getElementById('carouselDesc').textContent = item.desc;
+    document.getElementById('carouselCounter').innerHTML =
+        '<em>' + String(currentIdx+1).padStart(2,'0') + '</em> / ' + String(items.length).padStart(2,'0');
+    document.getElementById('carouselProgress').style.width = ((currentIdx+1)/items.length*100) + '%';
 }
 
-/* click stage → lightbox (not on buttons) */
 document.getElementById('carouselStage').addEventListener('click', function(e) {
-    if (!e.target.closest('.carousel-btn') && !e.target.closest('.carousel-expand')) {
-        openCurrentLightbox(e);
-    }
+    if (!e.target.closest('.carousel-btn') && !e.target.closest('.carousel-expand')) openCurrentLightbox(e);
 });
 
-/* swipe on mobile */
 let touchX0 = 0;
-document.getElementById('carouselStage').addEventListener('touchstart', e => {
-    touchX0 = e.touches[0].clientX;
-}, { passive: true });
+document.getElementById('carouselStage').addEventListener('touchstart', e => { touchX0 = e.touches[0].clientX; }, { passive: true });
 document.getElementById('carouselStage').addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - touchX0;
     if (Math.abs(dx) > 48) dx < 0 ? carouselNext() : carouselPrev();
 });
 
-/* ── LIGHTBOX ── */
-let lbItems = [];
-let lbIdx   = 0;
-
+/* ════════════════════════════════
+   LIGHTBOX
+════════════════════════════════ */
+let lbItems = [], lbIdx = 0;
 function openCurrentLightbox(e) {
     e && e.stopPropagation();
-    lbItems = gallery[currentCat];
-    lbIdx   = currentIdx;
+    lbItems = gallery[currentCat]; lbIdx = currentIdx;
     renderLightbox();
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
 }
-
 function renderLightbox() {
     const item = lbItems[lbIdx];
-    document.getElementById('lightbox-img').src    = item.src;
+    document.getElementById('lightbox-img').src = item.src;
     document.getElementById('lightboxTitle').textContent = item.title;
-    document.getElementById('lightboxDesc').textContent  = item.desc;
+    document.getElementById('lightboxDesc').textContent = item.desc;
     document.getElementById('lightboxCounter').textContent =
-        String(lbIdx + 1).padStart(2, '0') + ' / ' + String(lbItems.length).padStart(2, '0');
+        String(lbIdx+1).padStart(2,'0') + ' / ' + String(lbItems.length).padStart(2,'0');
 }
-
 function closeLightbox() {
     document.getElementById('lightbox').classList.remove('open');
     document.body.style.overflow = '';
 }
-
 function lightboxNav(dir) {
-    lbIdx = ((lbIdx + dir) % lbItems.length + lbItems.length) % lbItems.length;
+    lbIdx = ((lbIdx+dir) % lbItems.length + lbItems.length) % lbItems.length;
     renderLightbox();
 }
+document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
 
-/* click outside image closes lightbox */
-document.getElementById('lightbox').addEventListener('click', function(e) {
-    if (e.target === this) closeLightbox();
-});
-
+/* ════════════════════════════════
+   KEYBOARD
+════════════════════════════════ */
 document.addEventListener('keydown', e => {
-    const lb = document.getElementById('lightbox');
-    if (lb.classList.contains('open')) {
-        if (e.key === 'Escape')      closeLightbox();
-        if (e.key === 'ArrowLeft')   lightboxNav(-1);
-        if (e.key === 'ArrowRight')  lightboxNav(1);
-    } else {
-        /* keyboard nav on carousel when focused */
-        if (e.key === 'ArrowLeft')  carouselPrev();
-        if (e.key === 'ArrowRight') carouselNext();
+    const lb = document.getElementById('lightbox').classList.contains('open');
+    if (lb) {
+        if (e.key === 'Escape')     closeLightbox();
+        if (e.key === 'ArrowLeft')  lightboxNav(-1);
+        if (e.key === 'ArrowRight') lightboxNav(1);
     }
 });
 
-/* ── NAV MENU ── */
+/* ════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════ */
+function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+/* ════════════════════════════════
+   ANIMATED COUNTERS
+════════════════════════════════ */
+function initCounters() {
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = +el.dataset.count;
+            const suffix = el.dataset.suffix || '';
+            const duration = 1400;
+            const start = performance.now();
+            function step(now) {
+                const p = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                const val = Math.round(ease * target);
+                el.textContent = val + suffix;
+                if (p < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+            counterObserver.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+}
+
+/* ════════════════════════════════
+   CUSTOM CURSOR
+════════════════════════════════ */
+function initCursor() {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let dotX = 0, dotY = 0, ringX = 0, ringY = 0, mouseX = 0, mouseY = 0;
+
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    document.addEventListener('mousedown', () => { dot.classList.add('click'); ring.classList.add('click'); });
+    document.addEventListener('mouseup',   () => { dot.classList.remove('click'); ring.classList.remove('click'); });
+
+    const hoverEls = 'a, button, .carousel-thumb, .tab-btn, .service-card, .temoignage, [onclick]';
+    document.addEventListener('mouseover', e => {
+        if (e.target.closest(hoverEls)) ring.classList.add('hover');
+    });
+    document.addEventListener('mouseout', e => {
+        if (e.target.closest(hoverEls)) ring.classList.remove('hover');
+    });
+
+    function loop() {
+        dotX  += (mouseX - dotX)  * 0.85;
+        dotY  += (mouseY - dotY)  * 0.85;
+        ringX += (mouseX - ringX) * 0.12;
+        ringY += (mouseY - ringY) * 0.12;
+        dot.style.left  = dotX  + 'px';
+        dot.style.top   = dotY  + 'px';
+        ring.style.left = ringX + 'px';
+        ring.style.top  = ringY + 'px';
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+
+/* ════════════════════════════════
+   SMOOTH SCROLL (desktop only)
+════════════════════════════════ */
+function initSmoothScroll() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if ('ontouchstart' in window) return;
+
+    let cur = window.pageYOffset, tgt = cur, raf = null;
+    const ease = 0.1;
+
+    function step() {
+        const d = tgt - cur;
+        if (Math.abs(d) < 0.5) { cur = tgt; window.scrollTo(0, cur); raf = null; return; }
+        cur += d * ease;
+        window.scrollTo(0, Math.round(cur));
+        raf = requestAnimationFrame(step);
+    }
+    function start() { if (!raf) raf = requestAnimationFrame(step); }
+
+    window.addEventListener('wheel', (e) => {
+        if (document.getElementById('lightbox').classList.contains('open')) return;
+        e.preventDefault();
+        let delta = e.deltaY;
+        if (e.deltaMode === 1) delta *= 32;
+        if (e.deltaMode === 2) delta *= window.innerHeight;
+        tgt = Math.max(0, Math.min(tgt + delta, document.documentElement.scrollHeight - window.innerHeight));
+        start();
+    }, { passive: false });
+
+    /* sync on anchor-link scroll */
+    window.addEventListener('scroll', () => { if (!raf) { cur = window.pageYOffset; tgt = cur; } }, { passive: true });
+
+    /* anchor clicks → smooth scroll */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const id = a.getAttribute('href').slice(1);
+            const el = document.getElementById(id);
+            if (!el) return;
+            e.preventDefault();
+            tgt = Math.max(0, el.offsetTop - 64);
+            start();
+        });
+    });
+}
+
+/* ════════════════════════════════
+   NAV MENU
+════════════════════════════════ */
 function toggleMenu() {
     const links = document.getElementById('navLinks');
     if (links.style.display === 'flex') {
@@ -701,43 +927,38 @@ function toggleMenu() {
         links.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(245,241,237,0.98);padding:24px 6vw;gap:16px;z-index:99;border-bottom:1px solid rgba(107,142,111,0.12);';
     }
 }
-
 function closeMenu() {
-    if (window.innerWidth < 640) {
-        document.getElementById('navLinks').style.cssText = '';
-    }
+    if (window.innerWidth < 640) document.getElementById('navLinks').style.cssText = '';
 }
 
-/* ── CONTACT FORM ── */
+/* ════════════════════════════════
+   CONTACT FORM
+════════════════════════════════ */
 function handleSubmit(e) {
     e.preventDefault();
-    const f       = e.target;
+    const f = e.target;
     const prenom  = f.querySelector('[name=prenom]').value;
     const nom     = f.querySelector('[name=nom]').value;
     const email   = f.querySelector('[name=email]').value;
     const service = f.querySelector('[name=service]').value || 'Non précisé';
     const message = f.querySelector('[name=message]').value;
-
-    const subject = encodeURIComponent(`Projet — ${service} · ${prenom} ${nom}`);
-    const body    = encodeURIComponent(
-        `Prénom : ${prenom}\nNom : ${nom}\nEmail : ${email}\nPrestation : ${service}\n\n${message}`
-    );
-
+    const subject = encodeURIComponent('Projet — ' + service + ' · ' + prenom + ' ' + nom);
+    const body    = encodeURIComponent('Prénom : ' + prenom + '\nNom : ' + nom + '\nEmail : ' + email + '\nPrestation : ' + service + '\n\n' + message);
     const btn = f.querySelector('button');
     btn.textContent = 'Ouverture de votre messagerie…';
     btn.style.background = 'var(--vert)';
-
-    window.location.href = `mailto:nicolasmorelli.mc@gmail.com?subject=${subject}&body=${body}`;
-
-    setTimeout(() => {
-        btn.textContent   = 'Envoyer mon message';
-        btn.style.background = '';
-        f.reset();
-    }, 3000);
+    window.location.href = 'mailto:nicolasmorelli.mc@gmail.com?subject=' + subject + '&body=' + body;
+    setTimeout(() => { btn.textContent = 'Envoyer mon message'; btn.style.background = ''; f.reset(); }, 3000);
 }
 
-/* ── INIT ── */
+/* ════════════════════════════════
+   INIT
+════════════════════════════════ */
 buildCarousel();
+initReveal();
+initCounters();
+initCursor();
+initSmoothScroll();
 </script>
 </body>
 </html>
