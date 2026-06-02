@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison Altus — Design d'intérieur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --beige: #f5f1ed; --beige-mid: #f0ede8; --beige-dark: #e8dcc8;
+            --vert: #6b8e6f; --vert-dark: #4a6b4e;
+            --text: #2c2c2c; --text-light: #666; --white: #ffffff;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--beige); color: var(--text); line-height: 1.6; }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(245,241,237,0.95); backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(107,142,111,0.15);
+            padding: 0 5vw; display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; letter-spacing: 3px; color: var(--vert); text-decoration: none; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); text-decoration: none; font-weight: 300; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--vert); }
+        .nav-cta { background: var(--text); color: var(--white) !important; padding: 8px 20px; border-radius: 2px; }
+        .nav-cta:hover { background: var(--vert) !important; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+        .hamburger span { display: block; width: 24px; height: 1px; background: var(--text); }
+
+        /* HERO */
+        #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 64px; }
+        .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 80px 5vw 80px 8vw; }
+        .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--vert); margin-bottom: 24px; }
+        .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 72px); font-weight: 300; line-height: 1.1; margin-bottom: 24px; }
+        .hero-title .accent { color: var(--vert); font-style: italic; }
+        .hero-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--text-light); border-left: 2px solid var(--vert); padding-left: 16px; margin-bottom: 24px; }
+        .hero-desc { font-size: 14px; color: var(--text-light); max-width: 400px; margin-bottom: 40px; }
+        .btn { display: inline-block; padding: 14px 32px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s; font-family: 'Inter', sans-serif; }
+        .btn-dark { background: var(--text); color: var(--white); }
+        .btn-dark:hover { background: var(--vert); color: var(--white); }
+        .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--text); margin-left: 12px; }
+        .btn-outline:hover { background: var(--text); color: var(--white); }
+        .hero-right { position: relative; overflow: hidden; }
+        .hero-right img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-badge { position: absolute; bottom: 40px; left: 40px; background: rgba(245,241,237,0.92); padding: 16px 20px; font-family: 'Cormorant Garamond', serif; }
+        .hero-badge .num { font-size: 32px; font-weight: 600; color: var(--vert); }
+        .hero-badge .label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-light); }
+
+        /* SECTIONS */
+        section { padding: 100px 5vw; }
+        .section-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--vert); margin-bottom: 12px; }
+        .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 300; line-height: 1.15; margin-bottom: 16px; }
+        .section-title .accent { color: var(--vert); font-style: italic; }
+        .section-desc { font-size: 14px; color: var(--text-light); max-width: 520px; margin-bottom: 48px; }
+
+        /* GALLERY */
+        #realisations { background: var(--white); }
+        .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+        .tab-btn { padding: 8px 20px; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid #ddd; background: transparent; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+        .tab-btn.active, .tab-btn:hover { background: var(--text); color: var(--white); border-color: var(--text); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .gallery-item { position: relative; overflow: hidden; border-radius: 2px; cursor: pointer; }
+        .gallery-item:first-child { grid-column: span 2; grid-row: span 2; }
+        .gallery-item img { width: 100%; height: 100%; min-height: 240px; object-fit: cover; transition: transform 0.5s ease; display: block; }
+        .gallery-item:hover img { transform: scale(1.04); }
+        .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(44,44,44,0.6) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 20px; }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay-text { color: var(--white); }
+        .gallery-overlay-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; }
+        .gallery-overlay-text p { font-size: 12px; opacity: 0.8; }
+
+        /* SERVICES */
+        #services { background: var(--beige); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+        .service-card { background: var(--white); padding: 36px 28px; border-radius: 2px; transition: transform 0.3s, box-shadow 0.3s; }
+        .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+        .service-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--beige-dark); line-height: 1; margin-bottom: 16px; }
+        .service-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; margin-bottom: 12px; }
+        .service-desc { font-size: 13px; color: var(--text-light); line-height: 1.7; margin-bottom: 16px; }
+        .service-detail { font-size: 12px; color: var(--text-light); }
+        .service-detail span { color: var(--vert); }
+
+        /* ABOUT */
+        #about { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-images { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .about-images img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 2px; }
+        .about-images img:first-child { margin-top: 40px; }
+        .about-values { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+        .about-value { display: flex; gap: 16px; align-items: flex-start; }
+        .about-value-dot { width: 6px; height: 6px; background: var(--vert); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+        .about-value p { font-size: 13px; color: var(--text-light); }
+        .about-value p strong { color: var(--text); font-weight: 400; }
+
+        /* CONTACT */
+        #contact { background: linear-gradient(135deg, var(--beige) 0%, var(--beige-mid) 100%); text-align: center; }
+        #contact .section-title, #contact .section-desc { margin-left: auto; margin-right: auto; }
+        #contact .section-desc { text-align: center; }
+        .contact-form { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        input, textarea, select { width: 100%; padding: 14px 16px; border: 1px solid #ddd; background: var(--white); font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); border-radius: 2px; outline: none; transition: border-color 0.2s; }
+        input:focus, textarea:focus { border-color: var(--vert); }
+        textarea { min-height: 120px; resize: vertical; }
+        .btn-full { width: 100%; }
+
+        /* FOOTER */
+        footer { background: var(--text); color: rgba(255,255,255,0.5); padding: 40px 5vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        footer .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; letter-spacing: 3px; text-transform: uppercase; color: var(--white); }
+        footer p { font-size: 12px; }
+
+        /* LIGHTBOX */
+        .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
+        .lightbox.open { display: flex; }
+        .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
+        .lightbox-close { position: absolute; top: 24px; right: 32px; color: white; font-size: 32px; cursor: pointer; background: none; border: none; }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            #hero { grid-template-columns: 1fr; }
+            .hero-right { height: 55vw; }
+            .hero-left { padding: 60px 6vw; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; }
+            .gallery-item:first-child { grid-column: span 2; }
+            #about { grid-template-columns: 1fr; padding: 60px 6vw; }
+            .about-images { order: -1; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-item:first-child { grid-column: span 1; }
+            section { padding: 64px 6vw; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#hero" class="nav-logo">Maison Altus</a>
+    <ul class="nav-links">
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<section id="hero">
+    <div class="hero-left">
+        <p class="hero-eyebrow">Design d'intérieur · Japandi · Wabi-sabi</p>
+        <h1 class="hero-title">Espaces<br><span class="accent">qui respirent</span></h1>
+        <blockquote class="hero-quote">« Beauty, not luxury is what I value »</blockquote>
+        <p class="hero-desc">Créer l'essence plutôt que remplir l'espace. Une approche où chaque élément a sa raison d'être, inspirée par la sobriété japandi et l'authenticité wabi-sabi.</p>
+        <div>
+            <a href="#contact" class="btn btn-dark">Discuter de votre projet</a>
+            <a href="#realisations" class="btn btn-outline">Voir les réalisations</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <img src="assets/images/1000089156.jpg" alt="Réalisation Maison Altus" onerror="this.style.background='linear-gradient(135deg,#f5f1ed,#e8dcc8)';this.removeAttribute('src')">
+        <div class="hero-badge">
+            <div class="num">20+</div>
+            <div class="label">Projets réalisés</div>
+        </div>
+    </div>
+</section>
+
+<section id="realisations">
+    <p class="section-tag">Portfolio</p>
+    <h2 class="section-title">Mes <span class="accent">réalisations</span></h2>
+    <p class="section-desc">Chaque projet est une conversation entre l'espace, la lumière et l'humain qui l'habite.</p>
+    <div class="filter-tabs">
+        <button class="tab-btn active" onclick="filterGallery('all', this)">Tout</button>
+        <button class="tab-btn" onclick="filterGallery('projets', this)">Projets réalisés</button>
+        <button class="tab-btn" onclick="filterGallery('3d', this)">Visualisations 3D</button>
+        <button class="tab-btn" onclick="filterGallery('moodboard', this)">Moodboards</button>
+    </div>
+    <div class="gallery-grid" id="gallery"></div>
+</section>
+
+<section id="services">
+    <p class="section-tag">Prestations</p>
+    <h2 class="section-title">Services & <span class="accent">honoraires</span></h2>
+    <p class="section-desc">Des accompagnements sur mesure pour chaque étape de votre projet d'intérieur.</p>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-num">01</div>
+            <h3 class="service-name">Visite Conseil</h3>
+            <p class="service-desc">Consultation personnalisée pour explorer votre vision, analyser votre espace et proposer des orientations de design adaptées à vos envies et votre budget.</p>
+            <p class="service-detail"><span>Durée :</span> 1h30 · À domicile ou en ligne</p>
+        </div>
+        <div class="service-card">
+            <div class="service-num">02</div>
+            <h3 class="service-name">Plans 2D / 3D</h3>
+            <p class="service-desc">Conception de plans d'aménagement et visualisations 3D pour projeter votre intérieur avant la réalisation. Chaque espace pensé dans ses moindres détails.</p>
+            <p class="service-detail"><span>Livrable :</span> Plans techniques + rendu 3D</p>
+        </div>
+        <div class="service-card">
+            <div class="service-num">03</div>
+            <h3 class="service-name">Shopping List</h3>
+            <p class="service-desc">Sélection de mobilier, matériaux et accessoires adaptés à votre style et votre budget. Une liste d'achats cohérente, prête à l'emploi.</p>
+            <p class="service-detail"><span>Livrable :</span> Sélection produits + liens d'achat</p>
+        </div>
+        <div class="service-card">
+            <div class="service-num">04</div>
+            <h3 class="service-name">Projet Complet</h3>
+            <p class="service-desc">Accompagnement de A à Z — de la conception à la réalisation. Plans, visualisations, shopping list, suivi de chantier et mise en scène finale.</p>
+            <p class="service-detail"><span>Inclus :</span> Tous les services précédents</p>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <div class="about-images">
+        <img src="assets/images/1000089182.jpg" alt="Réalisation" onerror="this.style.background='#f0ede8';this.removeAttribute('src')">
+        <img src="assets/images/1000089199.jpg" alt="Réalisation" onerror="this.style.background='#e8dcc8';this.removeAttribute('src')">
+    </div>
+    <div class="about-content">
+        <p class="section-tag">À propos</p>
+        <h2 class="section-title">Une approche<br><span class="accent">minimaliste</span></h2>
+        <p class="section-desc">Designer d'intérieur passionnée par les espaces épurés, je crée des intérieurs où chaque élément a une raison d'être. Inspirée par la philosophie japandi et le wabi-sabi, j'aide mes clients à trouver la beauté dans la simplicité.</p>
+        <div class="about-values">
+            <div class="about-value">
+                <div class="about-value-dot"></div>
+                <p><strong>Japandi & Wabi-sabi</strong> — L'harmonie entre design scandinave et esthétique japonaise, célébrant l'imperfection et l'authenticité.</p>
+            </div>
+            <div class="about-value">
+                <div class="about-value-dot"></div>
+                <p><strong>Matériaux naturels</strong> — Bois, lin, céramique. Des matières qui vieillissent bien et créent une atmosphère apaisante.</p>
+            </div>
+            <div class="about-value">
+                <div class="about-value-dot"></div>
+                <p><strong>Éclairage pensé</strong> — La lumière comme élément de décoration à part entière, pour des ambiances chaleureuses et vivantes.</p>
+            </div>
+        </div>
+        <a href="assets/docs/PRESTATIONS-MAISONALTUS.pdf" class="btn btn-dark" target="_blank">Télécharger les prestations</a>
+    </div>
+</section>
+
+<section id="contact">
+    <p class="section-tag">Contact</p>
+    <h2 class="section-title">Commençons votre <span class="accent">projet</span></h2>
+    <p class="section-desc">Parlez-moi de votre espace et de vos envies. Je vous répondrai sous 48h.</p>
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+            <input type="text" placeholder="Votre prénom" required>
+            <input type="text" placeholder="Votre nom" required>
+        </div>
+        <input type="email" placeholder="votre@email.com" required>
+        <select>
+            <option value="" disabled selected>Type de prestation</option>
+            <option>Visite Conseil</option>
+            <option>Plans 2D / 3D</option>
+            <option>Shopping List</option>
+            <option>Projet Complet</option>
+            <option>Autre</option>
+        </select>
+        <textarea placeholder="Décrivez votre projet, vos envies, votre espace..."></textarea>
+        <button type="submit" class="btn btn-dark btn-full">Envoyer mon message</button>
+    </form>
+</section>
+
+<footer>
+    <span class="footer-logo">Maison Altus</span>
+    <p>Design d'intérieur · Japandi & Wabi-sabi</p>
+    <p>© 2026 Maison Altus — Tous droits réservés</p>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+const images = [
+    { src: 'assets/images/1000089156.jpg', title: 'Chambre Japandi', desc: 'Palette naturelle & minimalisme', cat: 'projets' },
+    { src: 'assets/images/1000089161.jpg', title: 'Salon Épuré', desc: 'Blanc cassé et bois naturel', cat: 'projets' },
+    { src: 'assets/images/1000089165.jpg', title: 'Espace de vie', desc: 'Lumière et matières douces', cat: 'projets' },
+    { src: 'assets/images/1000089173.jpg', title: 'Chambre principale', desc: 'Éclairages dorés & textures', cat: 'projets' },
+    { src: 'assets/images/1000089179.jpg', title: 'Coin lecture', desc: 'Atmosphère wabi-sabi', cat: 'projets' },
+    { src: 'assets/images/1000089182.jpg', title: "Hall d'entrée", desc: "Premier regard sur l'espace", cat: 'projets' },
+    { src: 'assets/images/3000-io040lmwuimt5sr_2026-05-03_10-19-32_5386.webp', title: 'Visualisation salon', desc: 'Rendu 3D avant réalisation', cat: '3d' },
+    { src: 'assets/images/3000-io040lmwuimt5sr_2026-05-03_10-50-39_8938.webp', title: 'Projet chambre', desc: 'Simulation lumière naturelle', cat: '3d' },
+    { src: 'assets/images/3000-io040lmwuimt5sr_2026-05-03_17-31-21_1590.webp', title: 'Cuisine ouverte', desc: 'Plan & perspective 3D', cat: '3d' },
+    { src: 'assets/images/BeigeMinimalisteMoodboardInstagramStory_250202_232133_2.jpg', title: 'Moodboard Beige', desc: 'Palette douce & naturelle', cat: 'moodboard' },
+    { src: 'assets/images/DOC-20251104-WA0005_260503_082233_2.jpg', title: 'Planche matières', desc: 'Sélection matériaux & teintes', cat: 'moodboard' },
+    { src: 'assets/images/DOC-20251104-WA0005_260503_082233_3.jpg', title: 'Ambiance Japandi', desc: 'Références & inspirations', cat: 'moodboard' },
+];
+
+function renderGallery(filter) {
+    const grid = document.getElementById('gallery');
+    const filtered = filter === 'all' ? images : images.filter(i => i.cat === filter);
+    grid.innerHTML = filtered.map(img => `
+        <div class="gallery-item" onclick="openLightbox('${img.src}')">
+            <img src="${img.src}" alt="${img.title}" loading="lazy"
+                 onerror="this.parentElement.style.background='linear-gradient(135deg,#f5f1ed,#e8dcc8)';this.style.minHeight='200px';this.remove()">
+            <div class="gallery-overlay">
+                <div class="gallery-overlay-text">
+                    <h3>${img.title}</h3>
+                    <p>${img.desc}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterGallery(cat, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGallery(cat);
+}
+
+function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Message envoyé ✓';
+    btn.style.background = '#6b8e6f';
+    setTimeout(() => { btn.textContent = 'Envoyer mon message'; btn.style.background = ''; e.target.reset(); }, 3000);
+}
+
+function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    if (links.style.display === 'flex') {
+        links.style.cssText = '';
+    } else {
+        links.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(245,241,237,0.98);padding:24px 6vw;gap:16px;z-index:99;';
+    }
+}
+
+renderGallery('all');
+</script>
+</body>
+</html>

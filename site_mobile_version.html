@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison Altus - Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(to bottom, #f5f1ed, #f9f7f4, #f0ede8);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .mobile-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(245, 241, 237, 0.95);
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid #e0d5cc;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .logo-section img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .logo-text {
+            text-align: left;
+        }
+        
+        .logo-text h1 {
+            font-size: 14px;
+            color: #6b8e6f;
+            font-weight: bold;
+            line-height: 1.2;
+            letter-spacing: 1px;
+        }
+        
+        .nav-mobile {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .nav-mobile a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+        
+        /* Content */
+        .content {
+            padding: 24px 16px;
+        }
+        
+        .section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            color: #6b8e6f;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .hero-text {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+        
+        .hero-text .accent {
+            color: #6b8e6f;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: #666;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
+        .button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            transition: background 0.3s;
+            margin-top: 16px;
+            width: 100%;
+        }
+        
+        .button:hover {
+            background: #555;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+        }
+        
+        .tab-button {
+            background: transparent;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+            transition: all 0.3s;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .tab-button.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+        
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        
+        .project-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .project-info {
+            padding: 12px;
+            background: white;
+        }
+        
+        .project-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .project-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Services Section */
+        .services-bg {
+            background: linear-gradient(to bottom, #f5f1ed, #f9f7f4, #f0ede8);
+            padding: 24px 16px;
+            margin: 0 -16px;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .service-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .service-desc {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .service-desc p {
+            margin-bottom: 8px;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #ddd;
+            margin: 16px 0;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        input, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-section">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23f5f1ed' width='100' height='100'/%3E%3Ctext x='50' y='55' font-size='40' text-anchor='middle' fill='%236b8e6f' font-family='serif'%3EA%3C/text%3E%3C/svg%3E" alt="Logo">
+                <div class="logo-text">
+                    <h1>MAISON<br>ALTUS</h1>
+                </div>
+            </div>
+            <div class="nav-mobile">
+                <a href="#realisations">Réalisations</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Hero Section -->
+            <div class="section">
+                <div class="hero-text">Espaces <span class="accent">qui respirent</span></div>
+                <div class="quote">« Beauty, not luxury is what I value »</div>
+                <p style="font-size: 12px; color: #666;">Créer l'essence plutôt que remplir l'espace. Une approche où chaque élément a sa raison d'être, inspirée par la sobriété japandi et l'authenticité wabi-sabi.</p>
+                <button class="button">Discuter de votre projet</button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- Réalisations Section -->
+            <div class="section" id="realisations">
+                <div class="section-title">Réalisations</div>
+                
+                <div class="tabs">
+                    <button class="tab-button active">Projets réalisés</button>
+                    <button class="tab-button">Visualisations 3D</button>
+                    <button class="tab-button">Moodboards</button>
+                    <button class="tab-button">Planches</button>
+                </div>
+                
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div style="background: linear-gradient(135deg, #f5f1ed, #e8dcc8); height: 200px; display: flex; align-items: center; justify-content: center; color: #999;">Image 1</div>
+                        <div class="project-info">
+                            <div class="project-title">Chambre Japandi</div>
+                            <div class="project-desc">Minimalisme épuré avec papier peint géométrique et palette naturelle.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div style="background: linear-gradient(135deg, #f9f7f4, #f0ede8); height: 200px; display: flex; align-items: center; justify-content: center; color: #999;">Image 2</div>
+                        <div class="project-info">
+                            <div class="project-title">Salon Minimaliste</div>
+                            <div class="project-desc">Espace de vie épuré avec canapé blanc et bois naturel.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div style="background: linear-gradient(135deg, #f0ede8, #e8dcc8); height: 200px; display: flex; align-items: center; justify-content: center; color: #999;">Image 3</div>
+                        <div class="project-info">
+                            <div class="project-title">Chambre Réalisée</div>
+                            <div class="project-desc">Lit bleu marine, blanc cassé, affiche Ohara Koson, éclairages dorés.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div style="background: linear-gradient(135deg, #e8dcc8, #f5f1ed); height: 200px; display: flex; align-items: center; justify-content: center; color: #999;">Image 4</div>
+                        <div class="project-info">
+                            <div class="project-title">Salon Japandi - Blanc et bois</div>
+                            <div class="project-desc">Espace lumineux avec canapé blanc, palette naturelle et bois clair.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- Services Section -->
+            <div class="services-bg" id="services">
+                <div class="section-title" style="margin-left: -8px;">Services & Honoraires</div>
+                
+                <div class="tabs">
+                    <button class="tab-button active">Visite Conseil</button>
+                    <button class="tab-button">Plans 2D/3D</button>
+                    <button class="tab-button">Shopping List</button>
+                    <button class="tab-button">Projet Complet</button>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-title">Visite Conseil</div>
+                    <div class="service-desc">
+                        <p>Une consultation personnalisée pour explorer votre vision, analyser votre espace et proposer des orientations de design adaptées à vos envies et votre budget. Je vous écoute, je comprends votre univers, et je propose des solutions créatives et réalistes.</p>
+                        <p><strong>Durée :</strong> 1h30</p>
+                        <p><strong>Format :</strong> À domicile ou en ligne</p>
+                        <p><strong>Inclus :</strong> Analyse de l'espace, recommandations de style, conseils budgétaires</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- Contact Section -->
+            <div class="section" id="contact">
+                <div class="section-title">Commençons votre projet</div>
+                
+                <form class="form-group">
+                    <input type="text" placeholder="Votre nom">
+                    <input type="email" placeholder="votre@email.com">
+                    <textarea placeholder="Décrivez votre projet..."></textarea>
+                    <button class="button">Envoyer mon message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
