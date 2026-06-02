@@ -62,6 +62,28 @@
         .cursor-ring.click { width: 24px; height: 24px; }
         .cursor-dot.click { width: 10px; height: 10px; }
 
+        /* ── PAGE LOADER ── */
+        #loader {
+            position: fixed; inset: 0; z-index: 9000;
+            background: var(--beige);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px; letter-spacing: 5px; text-transform: uppercase;
+            color: var(--vert); margin-bottom: 28px; opacity: 0;
+            animation: loaderFadeIn 0.5s ease 0.1s forwards;
+        }
+        .loader-bar { width: 120px; height: 1px; background: var(--beige-dark); overflow: hidden; }
+        .loader-bar-fill {
+            height: 100%; background: var(--vert); width: 0;
+            animation: loaderBar 0.9s cubic-bezier(0.4,0,0.2,1) 0.3s forwards;
+        }
+        @keyframes loaderFadeIn { to { opacity: 1; } }
+        @keyframes loaderBar { to { width: 100%; } }
+
         /* ── SCROLL REVEAL ── */
         .reveal {
             opacity: 0;
@@ -76,8 +98,12 @@
             position: fixed; top: 0; left: 0; right: 0; z-index: 100;
             background: rgba(245,241,237,0.95); backdrop-filter: blur(8px);
             border-bottom: 1px solid rgba(107,142,111,0.15);
-            padding: 0 5vw; display: flex; align-items: center; justify-content: space-between; height: 64px;
+            padding: 0 5vw; display: flex; align-items: center; justify-content: space-between;
+            height: 64px; transition: height 0.35s ease, box-shadow 0.35s ease;
         }
+        nav.scrolled { height: 52px; box-shadow: 0 2px 24px rgba(44,44,44,0.06); }
+        nav.scrolled .nav-logo { font-size: 16px; }
+        nav.scrolled .nav-links a { font-size: 12px; }
         .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; letter-spacing: 3px; color: var(--vert); text-decoration: none; text-transform: uppercase; }
         .nav-links { display: flex; gap: 32px; list-style: none; }
         .nav-links a { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text); text-decoration: none; font-weight: 300; transition: color 0.2s; }
@@ -101,7 +127,7 @@
         .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--text); margin-left: 12px; }
         .btn-outline:hover { background: var(--text); color: var(--white); }
         .hero-right { position: relative; overflow: hidden; }
-        .hero-right img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-right img { width: 100%; height: 110%; object-fit: cover; transform-origin: center top; will-change: transform; }
         .hero-stats { display: none; }
 
         /* ── SECTIONS ── */
@@ -258,8 +284,18 @@
         /* ── SERVICES ── */
         #services { background: var(--beige); }
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-        .service-card { background: var(--white); padding: 36px 28px; border-radius: 2px; transition: transform 0.3s, box-shadow 0.3s; }
-        .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+        .service-card {
+            background: var(--white); padding: 36px 28px; border-radius: 2px;
+            transition: box-shadow 0.3s; position: relative; overflow: hidden;
+        }
+        .service-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 100%; height: 2px; background: var(--vert);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .service-card:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.07); }
+        .service-card:hover::after { transform: scaleX(1); }
         .service-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--beige-dark); line-height: 1; margin-bottom: 16px; }
         .service-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; margin-bottom: 12px; }
         .service-desc { font-size: 13px; color: var(--text-light); line-height: 1.7; margin-bottom: 16px; }
@@ -315,9 +351,18 @@
         .btn-full { width: 100%; }
 
         /* ── FOOTER ── */
-        footer { background: var(--text); color: rgba(255,255,255,0.5); padding: 40px 5vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        footer .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 16px; letter-spacing: 3px; text-transform: uppercase; color: var(--white); }
-        footer p { font-size: 12px; }
+        footer { background: var(--text); color: rgba(255,255,255,0.45); padding: 56px 5vw 36px; }
+        .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 28px; }
+        .footer-brand .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; letter-spacing: 3px; text-transform: uppercase; color: var(--white); display: block; margin-bottom: 10px; }
+        .footer-brand p { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.5px; }
+        .footer-links { display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--vert); }
+        .footer-social { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+        .footer-social a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+        .footer-social a:hover { color: var(--vert); }
+        .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+        .footer-bottom p { font-size: 11px; color: rgba(255,255,255,0.25); }
 
         /* ── LIGHTBOX ── */
         .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(10,8,7,0.95); justify-content: center; align-items: center; }
@@ -370,6 +415,12 @@
     </style>
 </head>
 <body>
+
+<!-- Page loader -->
+<div id="loader">
+    <span class="loader-logo">Maison Altus</span>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
 
 <!-- Custom cursor -->
 <div class="cursor-dot" id="cursorDot"></div>
@@ -619,9 +670,28 @@
 </section>
 
 <footer>
-    <span class="footer-logo">Maison Altus</span>
-    <p>Design d'intérieur · Japandi & Wabi-sabi</p>
-    <p>© 2026 Maison Altus — Tous droits réservés</p>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <span class="footer-logo">Maison Altus</span>
+            <p>Design d'intérieur · Japandi & Wabi-sabi</p>
+            <p style="margin-top:6px">Nice · Monaco</p>
+        </div>
+        <div class="footer-links">
+            <a href="#realisations">Réalisations</a>
+            <a href="#services">Services</a>
+            <a href="#about">À propos</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.instagram.com/maisonaltus" target="_blank" rel="noopener">Instagram @maisonaltus</a>
+            <a href="mailto:nicolasmorelli.mc@gmail.com">nicolasmorelli.mc@gmail.com</a>
+            <a href="assets/docs/PRESTATIONS-MAISONALTUS.pdf" target="_blank">Télécharger les prestations</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Maison Altus — Tous droits réservés</p>
+        <p>Design d'intérieur japandi & wabi-sabi</p>
+    </div>
 </footer>
 
 <!-- ═══════════ LIGHTBOX ═══════════ -->
@@ -645,7 +715,6 @@ const gallery = {
     projets: [
         { src: 'assets/images/1000089156.jpg',  title: 'Salon Vertigo',      desc: 'Canapés camel & parquet chevron' },
         { src: 'assets/images/1000089211.jpg',  title: 'Espace de vie',      desc: 'Salon & bibliothèque encastrée' },
-        { src: 'assets/images/1000089212.jpg',  title: 'Salon Terracotta',   desc: 'Claustra bois & touches dorées' },
         { src: 'assets/images/1000089229.jpg',  title: 'Coin salon',         desc: 'Canapé corail & galerie de tableaux' },
         { src: 'assets/images/1000089230.jpg',  title: 'Chambre Azur',       desc: 'Velours & estampes japonaises' },
     ],
@@ -657,8 +726,6 @@ const gallery = {
         { src: 'assets/images/1000089219.jpg',  title: 'Salon rosé',         desc: 'Arche dorée & lumières chaudes' },
         { src: 'assets/images/1000089222.jpg',  title: 'Chambre douce',      desc: 'Papier peint cactus & accès balcon' },
         { src: 'assets/images/1000091788.jpg',  title: 'Plan 2D coté',       desc: 'Grand appartement avec terrasse' },
-        { src: 'assets/images/3000-io040lmwuimt5sr_2026-05-03_10-19-32_5386.webp', title: 'Open space lumineux', desc: 'Salon & salle à manger' },
-        { src: 'assets/images/3000-io040lmwuimt5sr_2026-05-03_17-41-02_6188.webp', title: 'Salon blanc', desc: 'Canapé tufté & table en marbre' },
         { src: 'assets/images/IMG-20260119-WA0004.jpg',    title: 'Plan 2D', desc: 'Appartement terrasse 30 m²' },
         { src: 'assets/images/IMG-20260119-WA0005(2).jpg', title: 'Salon épuré', desc: 'Rendu réaliste & lumière naturelle' },
         { src: 'assets/images/IMG-20260119-WA0006(1).jpg', title: 'Chambre Art Déco', desc: 'Papier peint éventails & or' },
@@ -903,12 +970,52 @@ function handleSubmit(e) {
 }
 
 /* ════════════════════════════════
+   PAGE LOADER
+════════════════════════════════ */
+function initLoader() {
+    const loader = document.getElementById('loader');
+    window.addEventListener('load', () => {
+        setTimeout(() => loader.classList.add('hidden'), 1000);
+    });
+    setTimeout(() => loader.classList.add('hidden'), 2200);
+}
+
+/* ════════════════════════════════
+   NAV SCROLL EFFECT
+════════════════════════════════ */
+function initNavScroll() {
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.pageYOffset > 60);
+    }, { passive: true });
+}
+
+/* ════════════════════════════════
+   PARALLAX HERO
+════════════════════════════════ */
+function initParallax() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const img = document.querySelector('.hero-right img');
+    if (!img) return;
+    window.addEventListener('scroll', () => {
+        const y = window.pageYOffset;
+        const hero = document.getElementById('hero');
+        if (y < hero.offsetHeight) {
+            img.style.transform = 'translateY(' + (y * 0.25) + 'px)';
+        }
+    }, { passive: true });
+}
+
+/* ════════════════════════════════
    INIT
 ════════════════════════════════ */
+initLoader();
 buildCarousel();
 initReveal();
 initCounters();
 initCursor();
+initNavScroll();
+initParallax();
 </script>
 </body>
 </html>
