@@ -124,6 +124,8 @@
         .btn { display: inline-block; padding: 14px 32px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s; font-family: 'Inter', sans-serif; }
         .btn-dark { background: var(--text); color: var(--white); }
         .btn-dark:hover { background: var(--vert); color: var(--white); }
+        .pdf-download-block { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+        .pdf-logo { width: 100px; opacity: 0.85; }
         .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--text); margin-left: 12px; }
         .btn-outline:hover { background: var(--text); color: var(--white); }
         .hero-right { position: relative; overflow: hidden; }
@@ -636,27 +638,27 @@
             <p class="temoignage-author">Marie & Nicolas L.</p>
             <p class="temoignage-project">Projet complet · Appartement 85 m²</p>
         </div>
+        <div class="temoignage reveal" style="transition-delay:0s">
+            <div class="temoignage-stars">
+                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
+                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
+                <span class="temoignage-star">★</span>
+            </div>
+            <p class="temoignage-text">« Son talent et sa créativité m'ont permis de me sentir bien dans mon tout premier chez moi. Imaginé avec goût et intelligence, elle a su en faire quelque chose de personnalisé et d'adapté à mes choix. Un grand merci à elle, foncez ! »</p>
+            <div class="temoignage-sep"></div>
+            <p class="temoignage-author">Daphné B.</p>
+            <p class="temoignage-project">Plans 3D · Moodboard · Shopping List · 2 pièces</p>
+        </div>
         <div class="temoignage reveal" style="transition-delay:0.12s">
             <div class="temoignage-stars">
                 <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
                 <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
                 <span class="temoignage-star">★</span>
             </div>
-            <p class="temoignage-text">« Les visualisations 3D nous ont permis de nous projeter parfaitement avant les travaux. Chaque choix était justifié, rien n'a été laissé au hasard. Résultat fidèle à 100%. »</p>
+            <p class="temoignage-text">« Mon appartement présente une décoration élégante et parfaitement cohérente, alliant modernité et chaleur. Les meubles TV et bibliothèque noirs en cannage apportent du caractère, tandis que le canapé beige et la table en marbre accompagnée de fauteuils ocres créent une ambiance raffinée et conviviale. Merci aux précieux conseils d'Audrey sans qui mon 2 pièces serait toujours à vide ! »</p>
             <div class="temoignage-sep"></div>
-            <p class="temoignage-author">Thomas R.</p>
-            <p class="temoignage-project">Plans 2D / 3D · Rénovation salon & cuisine</p>
-        </div>
-        <div class="temoignage reveal" style="transition-delay:0.24s">
-            <div class="temoignage-stars">
-                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
-                <span class="temoignage-star">★</span><span class="temoignage-star">★</span>
-                <span class="temoignage-star">★</span>
-            </div>
-            <p class="temoignage-text">« En une heure de visite conseil, Audrey a identifié tous les points faibles de notre intérieur et proposé des solutions simples mais percutantes. Inestimable. »</p>
-            <div class="temoignage-sep"></div>
-            <p class="temoignage-author">Céline M.</p>
-            <p class="temoignage-project">Visite Conseil · Monaco</p>
+            <p class="temoignage-author">Sophie B.</p>
+            <p class="temoignage-project">Projet complet · 2 pièces</p>
         </div>
     </div>
 </section>
@@ -687,7 +689,10 @@
                 <p><strong>Éclairage pensé</strong> — La lumière comme élément de décoration à part entière, pour des ambiances chaleureuses et vivantes.</p>
             </div>
         </div>
-        <a href="assets/docs/PRESTATIONS-MAISONALTUS.pdf" class="btn btn-dark reveal" target="_blank">Télécharger les prestations</a>
+        <div class="pdf-download-block reveal">
+            <img src="assets/images/logo.png" alt="Maison Altus" class="pdf-logo">
+            <a href="assets/docs/PRESTATIONS-MAISONALTUS.pdf" class="btn btn-dark" target="_blank">Télécharger les prestations</a>
+        </div>
     </div>
 </section>
 
@@ -730,7 +735,7 @@
         </div>
         <div class="footer-social">
             <a href="https://www.instagram.com/maisonaltus" target="_blank" rel="noopener">Instagram @maisonaltus</a>
-            <a href="mailto:nicolasmorelli.mc@gmail.com">nicolasmorelli.mc@gmail.com</a>
+            <a href="mailto:maisonaltus@gmail.com">maisonaltus@gmail.com</a>
             <a href="assets/docs/PRESTATIONS-MAISONALTUS.pdf" target="_blank">Télécharger les prestations</a>
         </div>
     </div>
@@ -1060,7 +1065,7 @@ function handleSubmit(e) {
     const btn = f.querySelector('button');
     btn.textContent = 'Ouverture de votre messagerie…';
     btn.style.background = 'var(--vert)';
-    window.location.href = 'mailto:nicolasmorelli.mc@gmail.com?subject=' + subject + '&body=' + body;
+    window.location.href = 'mailto:maisonaltus@gmail.com?subject=' + subject + '&body=' + body;
     setTimeout(() => { btn.textContent = 'Envoyer mon message'; btn.style.background = ''; f.reset(); }, 3000);
 }
 
